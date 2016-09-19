@@ -1,6 +1,6 @@
 from sklearn import datasets
 iris = datasets.load_iris()
-
+import random
 # Show the data (the attributes of each instance)
 print(iris.data)
 
@@ -40,11 +40,17 @@ class HardCoded(object):
 		predictions = []
 		for i in self.testing_set:
 			predictions.append(0)
-		print len(predictions)
 		return predictions
 		
-		
+target = iris.target
+data = iris.data		
+shuffled = zip(data, target)
+random.shuffle(shuffled)
+data, target = zip(*shuffled)
+
+print data
+print target
 	
-hardcoded = HardCoded(iris.data, iris.target, iris.target_names)
+hardcoded = HardCoded(data, target, iris.target_names)
 hardcoded.train()#CHU CHU
 hardcoded.predict()
