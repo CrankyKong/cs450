@@ -14,26 +14,15 @@ import sys
 #print(iris.target_names)
 
 class KNN(object):
-	def __init__(self,data,target,target_names):
+	def __init__(self, data):
 		self.data = data
-		self.target = target
-		self.target_names = target_names
-		self.training_set = []
-		self.testing_set = []
-		count = 0
-		seventy_percent = len(self.data) * .7
-		for i in self.data:
-			if count < seventy_percent:
-				self.training_set.append(i)
-				count+=1
-			else:
-				self.testing_set.append(i)
-	def train(self):
+		self.X_train = []
+		self.y_train = []
+
+	def train(self, X_train, y_train):
 		#Plays 'Eye of the Tiger'
-		#Punches Hanging Meat
-		#Runs up Stairs.
-		#Holds hands up
-		#ADRIAAAAAAN!!
+		self.X_train = X_train
+		self.y_train = y_train
 		return True
 
 	def predict(self):
@@ -65,14 +54,15 @@ def main(argv):
 	for i in y_test:
 		print iris.target_names[i]
 
-	target = iris.target
-	data = iris.data		
-	shuffled = zip(data, target)
-	random.shuffle(shuffled)
-	data, target = zip(*shuffled)
-	hardcoded = KNN(data, target, iris.target_names)
-	hardcoded.train()#CHU CHU
-	hardcoded.predict()
+	#target = iris.target
+	#data = iris.data		
+	#shuffled = zip(data, target)
+	#random.shuffle(shuffled)
+	#data, target = zip(*shuffled)
+
+	homemadeClassifier = KNN(data)
+	homemadeClassifier.train(X_train, y_train)#CHU CHU
+	homemadeClassifier.predict()
 	classifier = KNeighborsClassifier(n_neighbors=3)
 	classifier.fit(X_train, y_train)
 	predictions = classifier.predict(X_test)
