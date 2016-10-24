@@ -1,9 +1,10 @@
 from sklearn import datasets
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.cross_validation import train_test_split
-
+from scipy.special import expit
 import random
 import sys
+
 
 iris = datasets.load_iris()
 
@@ -14,6 +15,13 @@ class Node(object):
 
 	def display(self):
 		print 'Value:', self.value, ' Weights:', self.weight
+
+def sigmoid_function(x):
+	#Sigmoid Function to calculate the activation
+	#f(x) = 1 / (1 + e^-x)
+	activation = expit(x)
+	return activation
+
 
 def classify(classifications):
 	there_can_only_be_one, maybe_this_one = 0,0
@@ -29,7 +37,7 @@ def classify(classifications):
 		print iris.target_names[this_one]
 
 
-		
+	
 
 def predict(input_values, num_output_nodes, weights):
 	#create input nodes
@@ -87,16 +95,24 @@ def main(argv):
 	
 	X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target,
     test_size=0.30, random_state=12345)
-	print "X_Train[0]:", X_train[0]
-	print "y_Train[0]:", y_train[0]
+	
 
+	#now with layers! num_layers means beyond input layer.
+	#Ex: 2 means input layer -> hidden layer -> output layer	
+	num_layers = random.randrange(1,8) 
+	print num_layers
+	for i in range(0,num_layers):
+		
+		#the next layer of nodes is hardcoded to 3 right now
+		num_output_nodes = random.randrange(0,8)
+		
+		#if it's the last layer it needs to be equal to the number targets
+		if i == num_layers:
+			num_output_nodes = 3
+		weights = create_weight_table(len(X_train[0]) + 1, num_output_nodes)
 
-	#the next layer of nodes is hardcoded to 3 right now
-	num_output_nodes = 3
-	weights = create_weight_table(len(X_train[0]) + 1, num_output_nodes)
-
-	for values in X_train:
-		weights = predict(values, num_output_nodes, weights)
+		for values in X_train:
+			weights = predict(values, num_output_nodes, weights)
 
 
 
